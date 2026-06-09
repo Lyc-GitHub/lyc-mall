@@ -1,0 +1,60 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /secKillOrder
+spring:
+  application:
+    name: mall-secKillOrder
+  datasource:
+    url: jdbc:mysql://localhost:3306/lyc_mall?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.40.128
+    port: 6379
+    password: Lyc123456.
+    timeout: 60000
+  rabbitmq:
+    host: 192.168.40.128
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.40.128:8848
+mybatis-plus:
+  #  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath*:/mapping/**/*.xml
+  # 实体类别名包（用于简化 XML 中的类型引用）
+  type-aliases-package: com.lyc.learn.entity
+  configuration:
+    # 开启 SQL 日志打印（开发阶段建议开启）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名映射（数据库 user_name → 实体 userName）
+    map-underscore-to-camel-case: true
+alipay:
+  # 沙箱网关地址（固定）
+  gateway-url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+  # 你的沙箱应用APPID
+  app-id: 9021000164635496
+  # 你的应用私钥
+  merchant-private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDiDGGa8PRE7JTw6xw4qXiNcFBk3IIGXyp4PqPW+dY1vCFS5dm5sOcXdHxdQlECDL9TRCcK+UniQ4SwCsP64L5vN5DkeXUGopjm2UDKKZpwPXh/ORF/2xVuRzR9UccobfgLZqyf1C6Sb2M8R4R7qKPJHQufQIHABUjEO/Twsi5ESUxeOmIaAZtNfWUCnpClWms6jHZlLrOuDyg8A3ps4QJtVGUfB1ToNPytUHUW8EmCrNuuzhPOBqkwJKQWPmnHE2Waw9tnjA8swH2abGPeDJC4l1oRRl0oWF3XO61IyFvRIROeUPcgqxP/xuwLsaCET5jNC3/UisS2w6eix/bNRS9pAgMBAAECggEAUp/58VuPvb3IN0OI/kEb2n8qM6PSNygD6w3ib0rE/ME2YQm5CsHZxl4Cs0fxOlGUgYgQyVcTpYvObVaSChqqIRbrdEfc+b7nKsJQh1SrqckeSUp/1f8rlzKZwhDpPiLsHqa6BHXXTBlA6aCukVC0BWgDfoNiqeCEl43e2zgV50k/d3lJ3IpsdOLUvTMcCvS+dROJP7z8wGkn15dVPpmf140dvaUmQ9g8DTbqX9nM5ENdfbjflZgVH1rTN/JBiUXaU4C9R04Mn7rrX4HrtsW7xtctcO9Nxhzhjs+aLctcal4wTIUjz1Z2jR10C2MvPXCZHlYxOHwh4rM2man8Y4SB8QKBgQD84myYd/uaf5auTvQ1W+riyl4F/D9sHkOp+mdllx2H9qpRTXCSUovsQ375iS/ACbLT3IzNOkBZ0ZdSeVbEg/6LGKeuvoboCsgKIDorr5zuuEAlC2jhzpn2djUfugDzKhQXb8DUezjp9fZrvES43+hd/mEqlEfTQnxSrx3ehkryBQKBgQDk1VF8q0kojjdRGl3F6Eu6Y8ju7Ua7+nh3KbvVVdha///o733Re2Bfz45aZ/OMIgQnSu+gQUxYgHYk1os7gu4sBcp6GHqcduGaD/0SdeomZ0lCCcICalVNuTikQ0LLlQ78r/E4c+ZECGzV1nBUHcNgDRgBNBtghd4uoW9GT2kRFQKBgQDKFddacGdsK5GqcgXNrkqiOb2xYsb8C6Ne7nA6Suyafo/UsOHIzJZsk/OgTfUOrbFuhM0wI+DQ5iDbE4Q3PpPnbCh0CGWegR8imGZkCs6KJkt8TwXdjVCUGBqT4/xmVbYAlJmwM1hj/t6Rcb4pTyVOF75mXGCZfoQDP1XLQd4aUQKBgGfzS3gRq0MkD5blHlIH61a5e46l9OrxpgWjzLLls0nrXwomuQYPQMFlXOpOrIEs9qwOy3oGD7Nob8LePxOCr8UJwGfkdNZc3rEIsFLRg9N8OfgozJwiR6vuBv//mfk3Nj6tgiu94o1nMmGVbyOW/ajFafEqBYG8bijKpuzOqBDdAoGAWrIeE7yvh96sVwy5Js/3UKES8j7zTTlqUnf9OM/XZ16tGfr1e7NK9aKS0Aam3iqAor+pcw0Mm2wacoT+EVONGriJpl2NR1M00W4r1ApnGmdLg3RFyc7uBaPDeJzvjmLi7AsKlPR+Ofca5ZPYTY2UMIeEHByTFV433hnOF/LYGnU=
+  # 支付宝公钥（注意不是应用公钥）
+  alipay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiUADt+0LGHIG0Qs3K6USBn4FSvUloOIigGek45trwiTbHekMwMemqMAVNpWC/Quc0iZEHUDhEQtP239Aj5OFxoj9U/Hqm1nvAncQL6ziHfG3caYtJq4dpD3fUtYSswvSztfhrHzl+Vz2v+yoIyFMegFFnNtvX4247xOzJ54XvoJor+O2VSxHcvTKFveCaNaVCnWjUfvGrs3vw5eg53fXDlYJs4L/nUlZ9hcq32EeaaGGNGv+5VzcPB01qXwwPDbSS7ZwpllJfyizprfE6foQklOcqK/gv2R9h8M+OCOTK7+wSAnt02yoPK4OM0gsOhhNU//mdKeN3U2ozyJG5WlJwwIDAQAB
+  # 异步通知地址（本地开发时需内网穿透，稍后讲解）
+  notify-url: https://你的内网穿透域名/api/alipay/notify
+  # 页面跳转同步通知地址
+  return-url: http://127.0.0.1:8888/seckill#/seckill
+  # 字符编码格式
+  charset: UTF-8
+  # 签名方式
+  sign-type: RSA2
+  # 返回数据格式
+  format: json

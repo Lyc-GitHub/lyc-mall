@@ -1,0 +1,42 @@
+server:
+  port: 8020
+  servlet:
+    context-path: /product
+spring:
+  application:
+    name: mall-product
+  datasource:
+    url: jdbc:mysql://localhost:3306/lyc_mall?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.40.128:8848
+  redis:
+    host: 192.168.40.128
+    port: 6379
+    password: Lyc123456.
+    timeout: 60000
+mybatis-plus:
+  #  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath*:/mapping/**/*.xml
+  # 实体类别名包（用于简化 XML 中的类型引用）
+  type-aliases-package: com.lyc.learn.entity
+  configuration:
+    # 开启 SQL 日志打印（开发阶段建议开启）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名映射（数据库 user_name → 实体 userName）
+    map-underscore-to-camel-case: true
+    
+aliyun:
+  oss:
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    bucket: lyc-mall-oss-bucket
+    access-key-id: ${ALIYUN_ACCESS_KEY_ID}
+    access-key-secret: ${ALIYUN_ACCESS_KEY_SECRET}
+    role-arn: acs:ram::1185764562556069:role/oss-sts-upload-role
+    sts-endpoint: sts.cn-shanghai.aliyuncs.com
+    upload-dir-prefix: product-image
+    expire-seconds: 1800

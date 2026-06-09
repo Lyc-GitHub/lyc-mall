@@ -1,0 +1,40 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /auth
+spring:
+  application:
+    name: mall-auth
+  datasource:
+    url: jdbc:mysql://localhost:3306/lyc_mall_auth?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.40.128
+    port: 6379
+    password: Lyc123456.
+    timeout: 60000
+    database: 1
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.40.128:8848
+mybatis-plus:
+  #  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath*:/mapping/**/*.xml
+  # 实体类别名包（用于简化 XML 中的类型引用）
+  type-aliases-package: com.lyc.learn.entity
+  configuration:
+    # 开启 SQL 日志打印（开发阶段建议开启）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名映射（数据库 user_name → 实体 userName）
+    map-underscore-to-camel-case: true
+auth:
+  # 生成token的key
+  secret: mySecretKeyForJwtSigningAndVerification2026
+  # token的过期时间
+  expire: 1800000
+  sso:
+    # 白名单url
+    interceptorsb: /login/**,/test/checkServiceStatue

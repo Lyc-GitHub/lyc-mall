@@ -1,0 +1,43 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8010
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.40.128:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes: 
+        - id: secKill-server
+          uri: lb://mall-secKill
+          predicates:
+            - Path=/api/secKill/**
+          filters:
+            - StripPrefix=1
+
+        - id: secKill-order-server
+          uri: lb://mall-secKillOrder
+          predicates:
+            - Path=/api/secKillOrder/**
+          filters:
+            - StripPrefix=1
+
+        - id: auth-server
+          uri: lb://mall-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+
+        - id: product-server
+          uri: lb://mall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1

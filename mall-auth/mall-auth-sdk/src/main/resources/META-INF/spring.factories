@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.lyc.learn.auth.sdk.config.AuthSdkAutoConfiguration
