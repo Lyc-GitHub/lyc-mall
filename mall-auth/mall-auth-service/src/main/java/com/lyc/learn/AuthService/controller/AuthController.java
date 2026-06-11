@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,17 +49,14 @@ public class AuthController {
         }
 
         // 生成 JWT payload（存放必要信息，不宜过多）
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
-        claims.put("username", user.getUsername());
-        String token = jwtUtil.generateToken(claims);
+        String token = generateToken(user.getId(), user.getUsername());
         result.put("data", token);
         result.put("code", 200);
         return result;
     }
 
     @GetMapping("/getUserInfoByToken")
-    public UserInfoResultVo getUserInfoByToken(HttpServletRequest request) {
+    public UserInfoResultVo getUserInfoByToken(HttpServletRequest request, HttpServletResponse response) {
         String authorization = request.getHeader("Authorization");
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             return UserInfoResultVo.error(HttpStatus.UNAUTHORIZED.value(), "请先登录");
@@ -73,6 +71,11 @@ public class AuthController {
             } else {
                 String userJsonStr = JsonUtil.toJson(user);
                 UserInfo userInfo = JsonUtil.toObject(userJsonStr, UserInfo.class);
+                String newToken = null;
+                // 如果token快过期了，颁发一个新的token给前端
+                if (jwtUtil.tokenIsApproachExpire(authorization)) {
+                    newToken = generateToken(userInfo.getId(), user.getUsername());
+                }
                 String roleJson = JsonUtil.toJson(user.getRoles());
                 List<RoleInfo> roleInfos = JsonUtil.toList(roleJson, RoleInfo.class);
                 List<PermissionInfo> permissionInfos = new ArrayList<>();
@@ -82,7 +85,7 @@ public class AuthController {
                     List<PermissionInfo> perInfos = JsonUtil.toList(perJson, PermissionInfo.class);
                     permissionInfos.addAll(perInfos);
                 }
-                return UserInfoResultVo.success(userInfo, roleInfos, permissionInfos);
+                return UserInfoResultVo.success(userInfo, roleInfos, permissionInfos, newToken);
             }
         } catch (ExpiredJwtException e) {
             // token 过期：返回 401，不继续执行
@@ -96,4 +99,10 @@ public class AuthController {
         }
     }
     
+    private String generateToken(Long userId, String username) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("username", username);
+        return jwtUtil.generateToken(claims);
+    }
 }

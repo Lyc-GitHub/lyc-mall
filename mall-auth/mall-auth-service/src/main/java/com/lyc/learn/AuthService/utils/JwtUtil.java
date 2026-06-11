@@ -21,6 +21,10 @@ public class JwtUtil {
     @Value("${jwt.expire:1800000}")  // 默认30分钟
     private Long expire;
     
+    // token过期阈值，临近这个时间的token，会重新生成新的token，默认5分钟
+    @Value("${jwt.refreshThreshold:300000}")
+    private Long refreshThreshold;
+    
     public Long getExpire() {
         return expire;
     }
@@ -52,6 +56,11 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean tokenIsApproachExpire(String token) {
+        Date expiration = parseToken(token).getExpiration();
+        return System.currentTimeMillis() + refreshThreshold >= expiration.getTime();
     }
 
     /**

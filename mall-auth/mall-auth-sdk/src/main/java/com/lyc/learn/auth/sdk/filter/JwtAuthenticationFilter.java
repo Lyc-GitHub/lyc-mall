@@ -56,6 +56,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 sendErrorResponse(response, resultVo.getCode(), resultVo.getErrMsg());
             }
         } else {
+            // 如果响应中包含新的token，将其设置到响应头中
+            if (resultVo.getNewToken() != null && !resultVo.getNewToken().isEmpty()) {
+                response.setHeader("x-access-token", resultVo.getNewToken());
+            }
+            
             // 将用户信息设置到上下文
             List<GrantedAuthority> authorities = new ArrayList<>();
             List<RoleInfo> roleInfos = resultVo.getRoleInfos();

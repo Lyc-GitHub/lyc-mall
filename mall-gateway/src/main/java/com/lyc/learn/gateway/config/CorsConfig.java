@@ -6,6 +6,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 public class CorsConfig {
     
@@ -27,6 +29,9 @@ public class CorsConfig {
 
         // 预检请求缓存时间（秒）
         config.setMaxAge(3600L);
+
+        // 允许前端访问这个请求头
+        config.setExposedHeaders(Arrays.asList("x-access-token"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

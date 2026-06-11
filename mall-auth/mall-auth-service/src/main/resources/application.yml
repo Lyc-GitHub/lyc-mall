@@ -35,6 +35,8 @@ auth:
   secret: mySecretKeyForJwtSigningAndVerification2026
   # token的过期时间
   expire: 1800000
+  # token临近过期时间，达到这个时候后，会重新生成一个新的token
+  refreshThreshold: 300000
   sso:
     # 白名单url
     interceptorsb: /login/**,/test/checkServiceStatue
